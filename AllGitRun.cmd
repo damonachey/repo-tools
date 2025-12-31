@@ -10,4 +10,5 @@ for /f "delims=" %%i in ('dir /s /b /ad .git') do (
     popd
 )
 
+echo.
 echo Done.

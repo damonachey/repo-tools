@@ -23,5 +23,6 @@ for /f "delims=" %%i in ('dir /s /b /ad bin obj .venv venv node_modules') do (
     )
 )
 
+echo.
 echo Done.
 pause

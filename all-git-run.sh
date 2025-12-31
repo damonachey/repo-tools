@@ -11,4 +11,5 @@ find . -name ".git" -type d | while read gitdir; do
     popd > /dev/null
 done
 
+echo ""
 echo "Done."

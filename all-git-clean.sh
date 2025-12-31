@@ -23,5 +23,6 @@ find . -type d \( -name "bin" -o -name "obj" -o -name ".venv" -o -name "venv" -o
     fi
 done
 
+echo ""
 echo "Done."
 read -p "Press Enter to continue..."
