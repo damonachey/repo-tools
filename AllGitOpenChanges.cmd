@@ -16,7 +16,7 @@ for /f "delims=" %%i in ('dir /s /b /ad .git') do (
 )
 
 REM Enumerate worktrees (.git file referencing main repo)
-for /f "delims=" %%i in ('dir /s /b /a-d .git') do (
+for /f "delims=" %%i in ('dir /s /b /a-d .git 2^>^&1 ^| findstr /v /c:"File Not Found"') do (
     set "mainrepo="
     for /f "delims=" %%j in ('git -C "%%~dpi" rev-parse --show-toplevel 2^>NUL') do (
         set "mainrepo=%%j"
