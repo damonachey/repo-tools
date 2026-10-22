@@ -1,7 +1,6 @@
 #!/bin/bash
 
 echo "Scanning for uncommitted changes..."
-echo ""
 
 # Enumerate standard repos (.git directory)
 find . -name ".git" -type d | while read gitdir; do
@@ -10,6 +9,7 @@ find . -name ".git" -type d | while read gitdir; do
     
     # Check if there are any changes (not on master branch or uncommitted changes)
     if git status --porcelain --branch | grep -q -v "master"; then
+        echo ""
         echo "$gitdir"
         git status --short --branch
     fi
@@ -25,6 +25,7 @@ find . -name ".git" -type f | while read gitfile; do
     pushd "$repodir" > /dev/null
     
     if git status --porcelain --branch | grep -q -v "master"; then
+        echo ""
         echo "$gitfile (worktree of $mainrepo)"
         git status --short --branch
     fi
