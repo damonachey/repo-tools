@@ -12,7 +12,7 @@ for /f "delims=" %%i in ('dir /s /b /ad .git') do (
 )
 
 REM Enumerate worktrees (.git file referencing main repo)
-for /f "delims=" %%i in ('dir /s /b /a-d .git') do (
+for /f "delims=" %%i in ('dir /s /b /a-d .git 2^>^&1 ^| findstr /v /c:"File Not Found"') do (
     echo %%i ^(worktree^)
     pushd "%%~dpi"
     %*
@@ -20,8 +20,8 @@ for /f "delims=" %%i in ('dir /s /b /a-d .git') do (
 )
 
 REM Enumerate bare repos (directories named *.git)
-for /f "delims=" %%i in ('dir /s /b /ad *.git') do (
-    if exist "%%i\HEAD" (
+for /f "delims=" %%i in ('dir /s /b /ad *.git 2^>^&1 ^| findstr /v /c:"File Not Found"') do (
+    if /i not "%%~nxi"==".git" if exist "%%i\HEAD" (
         echo %%i ^(bare^)
         pushd "%%i"
         %*

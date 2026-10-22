@@ -2,13 +2,13 @@
 setlocal enabledelayedexpansion
 
 echo Scanning for uncommitted changes...
-echo.
 
 REM Enumerate standard repos (.git directory)
 for /f "delims=" %%i in ('dir /s /b /ad .git') do (
     pushd "%%i\..\"
     git status --short --branch | findstr /v master > NUL
     if !errorlevel! equ 0 (
+        echo.
         echo %%i
         git status --short --branch
     )
@@ -25,6 +25,7 @@ for /f "delims=" %%i in ('dir /s /b /a-d .git 2^>^&1 ^| findstr /v /c:"File Not 
         pushd "%%~dpi"
         git status --short --branch | findstr /v master > NUL
         if !errorlevel! equ 0 (
+            echo.
             echo %%i ^(worktree of !mainrepo!^)
             git status --short --branch
         )

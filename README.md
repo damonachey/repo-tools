@@ -7,17 +7,20 @@ A collection of scripts for managing multiple git repositories and development d
 ### Bash Scripts (.sh)
 
 #### `clean-build-dirs.sh`
-Scans for and removes temporary development folders (bin, obj, .venv, venv, node_modules) recursively from the current directory.
+Scans for and removes build output and dependency folders recursively from the script's own directory.
 
 **Usage:**
 ```bash
-./clean-build-dirs.sh
+./clean-build-dirs.sh            # list, then ask for YES
+./clean-build-dirs.sh --whatif   # list only, delete nothing
+./clean-build-dirs.sh -y         # delete without asking
 ```
 
 **Features:**
-- Shows folder sizes before deletion
-- Requires explicit "YES" confirmation before proceeding
-- Safe deletion with error handling
+- Always removes regenerated caches: `.venv`, `venv`, `node_modules`, `.vs`, `__pycache__`, `.pytest_cache`, `.mypy_cache`, `.ruff_cache`, `.tox`, `.nox`, `.hypothesis`, `.ipynb_checkpoints`, `htmlcov`, `coverage`, `TestResults`, `.next`, `.nuxt`, `.svelte-kit`, `.angular`, `.turbo`, `.parcel-cache`, `.vite`, `.astro`, `.gradle`, `.terraform`
+- Removes `bin`, `obj`, `packages`, `artifacts`, `dist`, `build` and `out` only when a matching project file (`*.csproj`, `*.sln`, `package.json`, `CMakeLists.txt`, ...) sits alongside, so hand-made folders with those names are left alone
+- Doesn't descend into `node_modules`, `.venv` or `venv`; the folder itself is removed
+- Requires explicit "YES" confirmation unless `-y` is given
 
 #### `open-changes.sh`
 Scans all git repositories recursively and shows those with uncommitted changes or branches other than master.
@@ -39,7 +42,7 @@ Executes a command in all git repositories found recursively from the current di
 ```bash
 ./each-repo.sh <command>
 ./each-repo.sh git status
-./each-repo.sh git pull origin main
+./each-repo.sh git pull
 ```
 
 **Features:**
@@ -50,17 +53,19 @@ Executes a command in all git repositories found recursively from the current di
 ### Windows Batch Scripts (.cmd)
 
 #### `CleanBuildDirs.cmd`
-Windows equivalent of `clean-build-dirs.sh`. Removes temporary development folders recursively.
+Windows equivalent of `clean-build-dirs.sh`. Removes build output and dependency folders recursively from the script's own directory.
 
 **Usage:**
 ```cmd
-CleanBuildDirs.cmd
+CleanBuildDirs.cmd            REM list, then ask for YES
+CleanBuildDirs.cmd /whatif    REM list only, delete nothing
+CleanBuildDirs.cmd /y         REM delete without asking
 ```
 
 **Features:**
-- Same functionality as the Bash version
-- Shows folder information before deletion
-- Requires "YES" confirmation for safety
+- Same folder rules as the Bash version
+- Falls back to robocopy when `rmdir` fails (e.g. paths that are too long)
+- Pauses before closing when double-clicked from Explorer
 
 #### `OpenChanges.cmd`
 Windows equivalent of `open-changes.sh`. Finds repositories with uncommitted changes.
@@ -82,7 +87,7 @@ Windows equivalent of `each-repo.sh`. Executes commands in all git repositories.
 ```cmd
 EachRepo.cmd <command>
 EachRepo.cmd git status
-EachRepo.cmd git pull origin main
+EachRepo.cmd git pull
 ```
 
 **Features:**
@@ -101,5 +106,5 @@ EachRepo.cmd git pull origin main
 ## Safety Notes
 
 - Always check for uncommitted changes before running cleanup operations
-- The clean scripts require explicit "YES" confirmation to prevent accidental deletion
+- The clean scripts require explicit "YES" confirmation (unless `-y` / `/y` is given) and support a `--whatif` / `/whatif` dry run
 - Scripts are designed to be safe and handle common edge cases
