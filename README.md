@@ -6,12 +6,12 @@ A collection of scripts for managing multiple git repositories and development d
 
 ### Bash Scripts (.sh)
 
-#### `all-git-clean.sh`
+#### `clean-build-dirs.sh`
 Scans for and removes temporary development folders (bin, obj, .venv, venv, node_modules) recursively from the current directory.
 
 **Usage:**
 ```bash
-./all-git-clean.sh
+./clean-build-dirs.sh
 ```
 
 **Features:**
@@ -19,12 +19,12 @@ Scans for and removes temporary development folders (bin, obj, .venv, venv, node
 - Requires explicit "YES" confirmation before proceeding
 - Safe deletion with error handling
 
-#### `all-git-open-changes.sh`
+#### `open-changes.sh`
 Scans all git repositories recursively and shows those with uncommitted changes or branches other than master.
 
 **Usage:**
 ```bash
-./all-git-open-changes.sh
+./open-changes.sh
 ```
 
 **Features:**
@@ -32,14 +32,14 @@ Scans all git repositories recursively and shows those with uncommitted changes 
 - Shows git status in short format with branch information
 - Helps locate repositories that need attention before cleanup
 
-#### `all-git-run.sh`
+#### `each-repo.sh`
 Executes a command in all git repositories found recursively from the current directory.
 
 **Usage:**
 ```bash
-./all-git-run.sh <command>
-./all-git-run.sh git status
-./all-git-run.sh git pull origin main
+./each-repo.sh <command>
+./each-repo.sh git status
+./each-repo.sh git pull origin main
 ```
 
 **Features:**
@@ -49,12 +49,12 @@ Executes a command in all git repositories found recursively from the current di
 
 ### Windows Batch Scripts (.cmd)
 
-#### `AllClean.cmd`
-Windows equivalent of `all-git-clean.sh`. Removes temporary development folders recursively.
+#### `CleanBuildDirs.cmd`
+Windows equivalent of `clean-build-dirs.sh`. Removes temporary development folders recursively.
 
 **Usage:**
 ```cmd
-AllClean.cmd
+CleanBuildDirs.cmd
 ```
 
 **Features:**
@@ -62,12 +62,12 @@ AllClean.cmd
 - Shows folder information before deletion
 - Requires "YES" confirmation for safety
 
-#### `AllGitOpenChanges.cmd`
-Windows equivalent of `all-git-open-changes.sh`. Finds repositories with uncommitted changes.
+#### `OpenChanges.cmd`
+Windows equivalent of `open-changes.sh`. Finds repositories with uncommitted changes.
 
 **Usage:**
 ```cmd
-AllGitOpenChanges.cmd
+OpenChanges.cmd
 ```
 
 **Features:**
@@ -75,14 +75,14 @@ AllGitOpenChanges.cmd
 - Shows status of repositories with changes
 - Windows-compatible version using batch commands
 
-#### `AllGitRun.cmd`
-Windows equivalent of `all-git-run.sh`. Executes commands in all git repositories.
+#### `EachRepo.cmd`
+Windows equivalent of `each-repo.sh`. Executes commands in all git repositories.
 
 **Usage:**
 ```cmd
-AllGitRun.cmd <command>
-AllGitRun.cmd git status
-AllGitRun.cmd git pull origin main
+EachRepo.cmd <command>
+EachRepo.cmd git status
+EachRepo.cmd git pull origin main
 ```
 
 **Features:**
@@ -92,9 +92,9 @@ AllGitRun.cmd git pull origin main
 
 ## Common Use Cases
 
-1. **Workspace Cleanup**: Run `all-git-open-changes.sh` first to identify work in progress, then use `all-git-clean.sh` to remove build artifacts.
+1. **Workspace Cleanup**: Run `open-changes.sh` first to identify work in progress, then use `clean-build-dirs.sh` to remove build artifacts.
 
-2. **Bulk Operations**: Use `all-git-run.sh` to perform the same git operation across multiple repositories (e.g., `git fetch`, `git pull`, `git status`).
+2. **Bulk Operations**: Use `each-repo.sh` to perform the same git operation across multiple repositories (e.g., `git fetch`, `git pull`, `git status`).
 
 3. **Cross-Platform Development**: Use the appropriate script version (.sh for Unix/Linux, .cmd for Windows) based on your environment.
 

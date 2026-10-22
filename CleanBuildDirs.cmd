@@ -1,7 +1,7 @@
 @echo off
 setlocal EnableExtensions EnableDelayedExpansion
 
-REM AllClean.cmd [/y] [/whatif]  - remove build/dep folders under this script's dir
+REM CleanBuildDirs.cmd [/y] [/whatif]  - remove build/dep folders under this script's dir
 set "ROOT=%~dp0"
 set "ROOT=%ROOT:~0,-1%"
 set "ASSUMEYES=" & set "WHATIF="
@@ -25,7 +25,7 @@ echo Guarded (need a project file alongside): bin obj dist build out packages ar
 echo.
 echo Scanning...
 
-set "LIST=%TEMP%\allclean_%RANDOM%%RANDOM%.txt"
+set "LIST=%TEMP%\cleanbuilddirs_%RANDOM%%RANDOM%.txt"
 break > "%LIST%"
 set /a COUNT=0
 
@@ -87,7 +87,7 @@ if not defined ASSUMEYES (
 
 echo.
 echo Deleting...
-set "EMPTY=%TEMP%\allclean_empty_%RANDOM%" & md "%EMPTY%" 2>nul
+set "EMPTY=%TEMP%\cleanbuilddirs_empty_%RANDOM%" & md "%EMPTY%" 2>nul
 set /a FAIL=0
 for /f "usebackq delims=" %%a in ("%LIST%") do (
     if exist "%%a\" (
