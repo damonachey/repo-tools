@@ -1,9 +1,9 @@
 @echo off
 setlocal EnableExtensions EnableDelayedExpansion
 
-REM CleanBuildDirs.cmd [/y] [/whatif]  - remove build/dep folders under this script's dir
-set "ROOT=%~dp0"
-set "ROOT=%ROOT:~0,-1%"
+REM CleanBuildDirs.cmd [/y] [/whatif]  - remove build/dep folders under the current dir
+set "ROOT=%CD%"
+if "%ROOT:~-1%"=="\" set "ROOT=%ROOT:~0,-1%"
 set "ASSUMEYES=" & set "WHATIF="
 for %%A in (%*) do (
     if /i "%%~A"=="/y"      set "ASSUMEYES=1"
@@ -29,6 +29,10 @@ set "LIST=%TEMP%\cleanbuilddirs_%RANDOM%%RANDOM%.txt"
 break > "%LIST%"
 set /a COUNT=0
 
+REM walk the tree once; "dir /s ROOT\name" would list the contents of ROOT\name instead of matching it
+set "ALLDIRS=%TEMP%\cleanbuilddirs_all_%RANDOM%%RANDOM%.txt"
+dir /s /b /ad "%ROOT%" 2>nul | findstr /v /i %PRUNE% > "%ALLDIRS%"
+
 for %%T in (%ALWAYS%) do call :scan "%%T" ""
 call :scan "bin"       "*.csproj *.vbproj *.fsproj *.sln"
 call :scan "obj"       "*.csproj *.vbproj *.fsproj *.sln"
@@ -41,8 +45,8 @@ goto :afterScan
 
 :scan
 REM %1 = folder name, %2 = marker globs ("" = unconditional)
-for /f "delims=" %%i in ('dir /s /b /ad "%ROOT%\%~1" 2^>nul') do (
-    echo(%%i | findstr /i %PRUNE% >nul || (
+for /f "delims=" %%i in ('findstr /l /i /e /c:"\\%~1" "%ALLDIRS%"') do (
+    if /i "%%~nxi"=="%~1" (
         if "%~2"=="" (
             call :add "%%i"
         ) else (
@@ -111,5 +115,6 @@ if %FAIL%==0 (
 
 :done
 del "%LIST%" 2>nul
+del "%ALLDIRS%" 2>nul
 echo %cmdcmdline% | find /i "%~nx0" >nul && pause
 endlocal

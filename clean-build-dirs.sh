@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# clean-build-dirs.sh [-y] [--whatif]  - remove build/dep folders under this script's dir
-ROOT=$(cd "$(dirname "$0")" && pwd)
+# clean-build-dirs.sh [-y] [--whatif]  - remove build/dep folders under the current dir
+ROOT=$(pwd)
 ASSUMEYES=
 WHATIF=
 for arg in "$@"; do

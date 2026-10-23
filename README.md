@@ -7,7 +7,7 @@ A collection of scripts for managing multiple git repositories and development d
 ### Bash Scripts (.sh)
 
 #### `clean-build-dirs.sh`
-Scans for and removes build output and dependency folders recursively from the script's own directory.
+Scans for and removes build output and dependency folders recursively from the current directory.
 
 **Usage:**
 ```bash
@@ -53,7 +53,7 @@ Executes a command in all git repositories found recursively from the current di
 ### Windows Batch Scripts (.cmd)
 
 #### `CleanBuildDirs.cmd`
-Windows equivalent of `clean-build-dirs.sh`. Removes build output and dependency folders recursively from the script's own directory.
+Windows equivalent of `clean-build-dirs.sh`. Removes build output and dependency folders recursively from the current directory.
 
 **Usage:**
 ```cmd
